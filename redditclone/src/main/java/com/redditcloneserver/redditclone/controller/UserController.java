@@ -18,9 +18,9 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    @PutMapping("/register")
-    public DTOUser register(@RequestBody User user, HttpServletResponse response) {
+    // @PutMapping("/register")
+    // public DTOUser register(@RequestBody User user, HttpServletResponse response) {
 
-        return dtoUser;
-    }
+    //     return dtoUser;
+    // }
 }

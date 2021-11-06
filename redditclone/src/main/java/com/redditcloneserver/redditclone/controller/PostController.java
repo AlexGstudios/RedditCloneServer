@@ -6,20 +6,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.redditcloneserver.redditclone.dto.DTOPost;
 import com.redditcloneserver.redditclone.model.Post;
-import com.redditcloneserver.redditclone.model.User;
 import com.redditcloneserver.redditclone.service.PostService;
 import com.redditcloneserver.redditclone.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 @RequestMapping("/post")
-@Controller
 public class PostController {
 
     @Autowired
@@ -31,7 +30,7 @@ public class PostController {
         return postService.getPosts();
     }
 
-    @GetMapping("/get-post/{id}")
+    @GetMapping("/{id}")
     public DTOPost getPost(@RequestBody Post post, HttpServletResponse response) {
         DTOPost exists = postService.getPost(post.getTitle());
         if (exists != null) {
@@ -44,17 +43,25 @@ public class PostController {
 
     }
 
+    // @RequetHeader("token") String token,
     @PutMapping("/create")
-    public Post newPost(@RequestHeader("token") String token, @RequestBody Post post, HttpServletResponse response) {
+    public DTOPost newPost( @RequestBody Post post, HttpServletResponse response) {
 
-        User user = userService.validate(token);
+        // User user = userService.validate(token);
 
-        if (token != null) {
+        if (post != null) { // ska vara token
             response.setStatus(200);
             return postService.newPost(post);
         } else {
             response.setStatus(401);
             return null;
         }
+    }
+
+    // @RequetHeader("token") String token,
+    @PutMapping("/update")
+    public DTOPost update(@RequestBody Post post, HttpServletResponse response){
+        
+        return dtoPost;
     }
 }

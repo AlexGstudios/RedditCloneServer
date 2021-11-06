@@ -39,17 +39,19 @@ public class PostService {
 
     }
 
-    public Post newPost(Post post) {
+    public DTOPost newPost(Post post) {
         Post existing = postRepository.get(post.getId());
 
         if (existing == null) {
-            Post noPost = new Post("", "", "", 0);
-            return noPost;
-        } else {
             postRepository.savePost(post);
-            return post;
+            DTOPost dtoPost = new DTOPost(post.getId(), post.getTitle(), post.getBody(), post.getPoints());
+            return dtoPost;
+        } else {
+            return null;
         }
     }
+
+    
 
     public Post addComment(User user, String postTitle) {
         Post post = postRepository.get(postTitle);
