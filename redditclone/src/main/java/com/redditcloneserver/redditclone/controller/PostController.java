@@ -10,6 +10,7 @@ import com.redditcloneserver.redditclone.service.PostService;
 import com.redditcloneserver.redditclone.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,20 +33,18 @@ public class PostController {
 
     @GetMapping("/{id}")
     public DTOPost getPost(@RequestBody Post post, HttpServletResponse response) {
-        DTOPost exists = postService.getPost(post.getTitle());
-        if (exists != null) {
+        if (postService.getPost(post.getId()) != null) {
             response.setStatus(200);
-            return exists;
+            return postService.getPost(post.getTitle());
         } else {
             response.setStatus(401);
             return null;
         }
-
     }
 
     // @RequetHeader("token") String token,
     @PutMapping("/create")
-    public DTOPost newPost( @RequestBody Post post, HttpServletResponse response) {
+    public DTOPost newPost(@RequestBody Post post, HttpServletResponse response) {
 
         // User user = userService.validate(token);
 
@@ -58,10 +57,22 @@ public class PostController {
         }
     }
 
+    // // @RequetHeader("token") String token,
+    // @PutMapping("/update")
+    // public DTOPost update(@RequestBody Post post, HttpServletResponse response){
+
+    // return dtoPost;
+    // }
+
     // @RequetHeader("token") String token,
-    @PutMapping("/update")
-    public DTOPost update(@RequestBody Post post, HttpServletResponse response){
-        
-        return dtoPost;
+    @DeleteMapping("/delete")
+    public String delete(@RequestBody String id, HttpServletResponse response) {
+        String deleted = postService.delete(id);
+        if (deleted == "Post has been deleted")
+            response.setStatus(200);
+        else
+            response.setStatus(401);
+
+        return deleted;
     }
 }

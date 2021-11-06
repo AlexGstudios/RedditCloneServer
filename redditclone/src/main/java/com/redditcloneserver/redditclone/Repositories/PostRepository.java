@@ -18,10 +18,15 @@ public class PostRepository {
     }
 
     public void savePost(Post post) {
-        posts.put(post.getTitle().toLowerCase(), post);
+        posts.put(post.getId().toLowerCase(), post);
     }
 
     public Collection<Post> getPosts() {
         return posts.values();
+    }
+
+    public String delete(String id) {
+        posts.remove(id.toLowerCase());
+        return "Post has been deleted";
     }
 }

@@ -36,7 +36,6 @@ public class PostService {
         } else {
             return null;
         }
-
     }
 
     public DTOPost newPost(Post post) {
@@ -51,8 +50,6 @@ public class PostService {
         }
     }
 
-    
-
     public Post addComment(User user, String postTitle) {
         Post post = postRepository.get(postTitle);
         if (post != null) {
@@ -61,5 +58,19 @@ public class PostService {
 
         user.getUserPost().add(post);
         return post;
+    }
+
+    // public DTOPost update(Post post){
+    // return;
+    // }
+
+    public String delete(String id) {
+        Post exists = postRepository.get(id.toLowerCase());
+
+        if (exists != null) {
+            return postRepository.delete(id);
+        } else {
+            return "Nothing to delete";
+        }
     }
 }
