@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.redditcloneserver.redditclone.dto.DTOPost;
 import com.redditcloneserver.redditclone.model.Post;
-import com.redditcloneserver.redditclone.model.User;
 import com.redditcloneserver.redditclone.service.PostService;
 import com.redditcloneserver.redditclone.service.UserService;
 
@@ -70,10 +69,10 @@ public class PostController {
     // }
 
     @DeleteMapping("/delete")
-    public String delete(@RequestHeader("token") String token, @RequestBody String id, HttpServletResponse response) {
+    public String delete(@RequestHeader("token") String token, @RequestBody Post post, HttpServletResponse response) {
 
         if (token != null) {
-            String deleted = postService.delete(id);
+            String deleted = postService.delete(post.getId(), post.getUsername());
             if (deleted == "Post has been deleted")
                 response.setStatus(200);
             else

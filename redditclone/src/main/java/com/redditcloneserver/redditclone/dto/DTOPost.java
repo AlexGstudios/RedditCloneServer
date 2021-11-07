@@ -1,7 +1,5 @@
 package com.redditcloneserver.redditclone.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,14 +8,15 @@ import lombok.Setter;
 public class DTOPost {
 
     private String id;
-    private String title, body;
+    private String title, body, username;
     private int points;
     private String hyperLink;
 
-    public DTOPost(String id, String title, String body, int points) {
+    public DTOPost(String id, String title, String body, String username, int points) {
         this.id = id;
         this.title = title;
         this.body = body;
+        this.username = username;
         this.points = points;
         this.hyperLink = "/post/" + id;
     }

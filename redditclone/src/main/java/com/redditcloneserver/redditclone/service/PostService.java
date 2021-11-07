@@ -22,7 +22,8 @@ public class PostService {
         Collection<DTOPost> dtoPosts = new ArrayList<>();
 
         for (Post post : posts) {
-            dtoPosts.add(new DTOPost(post.getId(), post.getTitle(), post.getBody(), post.getPoints()));
+            dtoPosts.add(
+                    new DTOPost(post.getId(), post.getTitle(), post.getBody(), post.getUsername(), post.getPoints()));
         }
 
         return dtoPosts;
@@ -31,7 +32,8 @@ public class PostService {
     public DTOPost getPost(String id) {
         Post exists = postRepository.get(id);
         if (exists != null) {
-            DTOPost dtoPost = new DTOPost(exists.getId(), exists.getTitle(), exists.getBody(), exists.getPoints());
+            DTOPost dtoPost = new DTOPost(exists.getId(), exists.getTitle(), exists.getBody(), exists.getUsername(),
+                    exists.getPoints());
             return dtoPost;
         } else {
             return null;
@@ -43,7 +45,8 @@ public class PostService {
 
         if (existing == null) {
             postRepository.savePost(post);
-            DTOPost dtoPost = new DTOPost(post.getId(), post.getTitle(), post.getBody(), post.getPoints());
+            DTOPost dtoPost = new DTOPost(post.getId(), post.getTitle(), post.getBody(), post.getUsername(),
+                    post.getPoints());
             return dtoPost;
         } else {
             return null;
@@ -64,13 +67,18 @@ public class PostService {
     // return;
     // }
 
-    public String delete(String id) {
-        Post exists = postRepository.get(id.toLowerCase());
+    public String delete(String id, String username) {
+        Post exists = postRepository.get(id);
 
         if (exists != null) {
-            return postRepository.delete(id);
+            if (username.equals(exists.getUsername())) {
+                return postRepository.delete(id);
+            } else {
+                return "Nothing to delete";
+            }
         } else {
-            return "Nothing to delete";
+            return "This post can not be deleted by you";
         }
+
     }
 }
