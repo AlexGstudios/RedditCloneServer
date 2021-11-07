@@ -9,12 +9,12 @@ import lombok.*;
 @Setter
 public class User {
 
-    private String userName, passWord;
-    private List<Post> userPost;
+    private String username, password;
+    private List<Post> userpost;
 
     public User(String name, String pass) {
-        this.userName = name;
-        this.passWord = pass;
-        this.userPost = new ArrayList<>();
+        this.username = name;
+        this.password = pass;
+        this.userpost = new ArrayList<>();
     }
 }

@@ -13,8 +13,8 @@ public class PostRepository {
 
     private final Map<String, Post> posts = new HashMap<>();
 
-    public Post get(String post) {
-        return posts.get(post.toLowerCase());
+    public Post get(String id) {
+        return posts.get(id.toLowerCase());
     }
 
     public void savePost(Post post) {

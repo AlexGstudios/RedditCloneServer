@@ -18,25 +18,25 @@ public class UserService {
 
     Map<String, User> tokens = new HashMap<>();
 
-    public int registerUser(String userName, String passWord) {
+    public String registerUser(String userName, String passWord) {
 
         User existing = userRepository.getUser(userName);
 
         if (existing != null) {
-            return 1;
+            return "Account with that username is already taken.";
         }
         userRepository.saveUser(new User(userName, passWord));
 
-        return 0;
+        return "Account created";
     }
 
     public String login(String userName, String passWord) {
         User user = userRepository.getUser(userName);
         if (user == null) {
-            return null;
+            return "Account not found.";
         }
-        if (!user.getPassWord().equals(passWord)) {
-            return null;
+        if (!user.getPassword().equals(passWord)) {
+            return "Username or Password are incorrect.";
         }
 
         String token = UUID.randomUUID().toString();

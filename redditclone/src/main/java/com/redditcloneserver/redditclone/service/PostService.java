@@ -28,8 +28,8 @@ public class PostService {
         return dtoPosts;
     }
 
-    public DTOPost getPost(String post) {
-        Post exists = postRepository.get(post);
+    public DTOPost getPost(String id) {
+        Post exists = postRepository.get(id);
         if (exists != null) {
             DTOPost dtoPost = new DTOPost(exists.getId(), exists.getTitle(), exists.getBody(), exists.getPoints());
             return dtoPost;
@@ -56,7 +56,7 @@ public class PostService {
             return post;
         }
 
-        user.getUserPost().add(post);
+        user.getUserpost().add(post);
         return post;
     }
 

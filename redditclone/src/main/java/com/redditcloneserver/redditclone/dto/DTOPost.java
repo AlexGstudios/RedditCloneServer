@@ -8,9 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DTOPost {
-    @JsonIgnore
-    private String id;
 
+    private String id;
     private String title, body;
     private int points;
     private String hyperLink;

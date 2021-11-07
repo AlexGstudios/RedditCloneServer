@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.redditcloneserver.redditclone.dto.DTOPost;
 import com.redditcloneserver.redditclone.model.Post;
+import com.redditcloneserver.redditclone.model.User;
 import com.redditcloneserver.redditclone.service.PostService;
 import com.redditcloneserver.redditclone.service.UserService;
 
@@ -32,24 +33,28 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public DTOPost getPost(@RequestBody Post post, HttpServletResponse response) {
-        if (postService.getPost(post.getId()) != null) {
-            response.setStatus(200);
-            return postService.getPost(post.getTitle());
+    public DTOPost getPost(@RequestHeader("token") String token, @RequestBody Post post, HttpServletResponse response) {
+
+        if (token != null) {
+            DTOPost dtoPost = postService.getPost(post.getId());
+
+            if (dtoPost != null) {
+                response.setStatus(200);
+                return dtoPost;
+            } else {
+                response.setStatus(401);
+                return null;
+            }
         } else {
-            response.setStatus(401);
             return null;
         }
     }
 
-    // @RequetHeader("token") String token,
     @PutMapping("/create")
-    public DTOPost newPost(@RequestBody Post post, HttpServletResponse response) {
+    public DTOPost newPost(@RequestHeader("token") String token, @RequestBody Post post, HttpServletResponse response) {
 
-        // User user = userService.validate(token);
-
-        if (post != null) { // ska vara token
-            response.setStatus(200);
+        if (token != null) {
+            response.setStatus(201);
             return postService.newPost(post);
         } else {
             response.setStatus(401);
@@ -57,22 +62,27 @@ public class PostController {
         }
     }
 
-    // // @RequetHeader("token") String token,
+    // // @RequestHeader("token") String token,
     // @PutMapping("/update")
     // public DTOPost update(@RequestBody Post post, HttpServletResponse response){
 
     // return dtoPost;
     // }
 
-    // @RequetHeader("token") String token,
     @DeleteMapping("/delete")
-    public String delete(@RequestBody String id, HttpServletResponse response) {
-        String deleted = postService.delete(id);
-        if (deleted == "Post has been deleted")
-            response.setStatus(200);
-        else
-            response.setStatus(401);
+    public String delete(@RequestHeader("token") String token, @RequestBody String id, HttpServletResponse response) {
 
-        return deleted;
+        if (token != null) {
+            String deleted = postService.delete(id);
+            if (deleted == "Post has been deleted")
+                response.setStatus(200);
+            else
+                response.setStatus(401);
+
+            return deleted;
+        } else {
+            response.setStatus(401);
+            return "Please create a Account.";
+        }
     }
 }

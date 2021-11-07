@@ -17,6 +17,6 @@ public class UserRepository {
     }
 
     public void saveUser(User user) {
-        users.put(user.getUserName().toLowerCase(), user);
+        users.put(user.getUsername().toLowerCase(), user);
     }
 }
